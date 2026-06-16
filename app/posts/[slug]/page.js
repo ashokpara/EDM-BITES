@@ -8,7 +8,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const post = getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
   return {
     title: `${post.title} — Oracle EDM`,
     description: post.excerpt,
@@ -23,8 +24,9 @@ function formatDate(dateStr) {
   });
 }
 
-export default function PostPage({ params }) {
-  const post = getPostBySlug(params.slug);
+export default async function PostPage({ params }) {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
   const html = marked(post.content);
 
   return (
