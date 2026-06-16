@@ -1,196 +1,200 @@
 ---
-title: "Oracle EDM June 2026: What Actually Matters"
+title: "Oracle EDM June 2026: What's New and Why It Matters for Your Business"
 date: "2026-06-16"
-excerpt: "12 features shipped in the June 2026 EDM release. Some are genuinely exciting. Some are nice-to-haves. A couple will change how you architect things. Here's my honest take as someone who implements this stuff for a living."
+excerpt: "12 features shipped in the June 2026 EDM release. Beyond the technical notes, here's what each one actually means for the people who use EDM every day — from data stewards to finance teams to IT."
 ---
 
-# Oracle EDM June 2026: What Actually Matters
+# Oracle EDM June 2026: What's New and Why It Matters for Your Business
 
-Oracle dropped 12 features in the June 2026 EDM release. I've gone through all of them so you don't have to read through the full readiness docs.
+Oracle released 12 enhancements to Enterprise Data Management in the June 2026 update. I've gone through all of them — not just what they do technically, but what they actually mean for the business users, data stewards, and finance teams who rely on EDM every day.
 
-My honest take: this is one of the stronger EDM releases in a while. A few of these will genuinely change how I recommend clients architect their environments. A few are incremental. One I'm watching closely but not betting on yet.
-
-Let's get into it.
-
----
-
-## The ones that actually change how you work
-
-### Granular Templates for Metadata Migration
-
-This is the feature I've been waiting for.
-
-If you've been doing EDM implementations for any length of time, you know the pain: you need to push a single new custom validation or extract from Dev to Prod, and your only option is a full application export. You're either doing a complete environment migration or doing it manually. Neither is great.
-
-Granular templates fix this. You can now select specific artifacts — custom validations, extracts, extract packages, global connections, lookup sets, policies, properties, subscriptions — and export them as a JSON template. Import that template into your target environment and only those artifacts move.
-
-This is how it should have always worked. Dev → Test → Prod pipelines are now actually manageable without coordinating full refreshes. Smaller blast radius, faster deployments, less anxiety.
-
-If you're setting up a new EDM environment this year, build your migration process around granular templates from day one.
+Some of these will change how end users interact with the system entirely. Others are quality-of-life improvements that save time in ways that quietly add up. Here's my take on all of them.
 
 ---
 
-### External Custom Validations and Global Connections
+## Change Management AI Assistant
 
-This one's architecturally significant.
+**Who benefits most:** Data stewards, finance users, anyone who finds EDM's interface intimidating
 
-EDM validations have always been self-contained — you can validate against data and logic that lives inside EDM. That works until a client asks: *"Can EDM prevent a member from being deleted if it still has open transactions in the GL?"* The honest answer used to be no, not natively.
+This is the feature most end users will notice first, and it's worth spending time on.
 
-Now it can. External custom validations let EDM call an external REST API when validating a request item. The API evaluates the data and returns warnings or errors, which surface directly in the EDM request workflow.
+Imagine a finance manager needs to update the cost centre property across 50 members because of a restructure. Today, that means logging into EDM, building filters, selecting members one by one or writing an expression, and submitting a request — a process that usually requires IT or a power user to do it right.
 
-The setup requires your external system to expose a REST endpoint conforming to Oracle's spec — so there's integration work involved. This isn't a no-code feature. But for clients with mature API layers, this opens up a class of governance rules that simply wasn't possible before.
+With the Change Management AI Assistant, that same finance manager can click "Ask Oracle" and type: *"Update the cost centre property to CC-104 for all members under the APAC Sales hierarchy."* EDM generates the request automatically. The user reviews it, confirms, and submits.
 
-My use case shortlist for clients:
-- Block member deletion if downstream balances exist
-- Validate new account codes against a chart of accounts in ERP
-- Enforce naming conventions by calling an external rules engine
+That's a meaningful shift in who can actually use EDM independently versus who has to rely on a consultant or IT team for routine changes.
 
-Worth scoping carefully before you promise it to a client, but genuinely powerful when done right.
+Beyond bulk updates, the assistant also lets users:
+- **Query data in plain language** — "Show me all accounts where the account type is Revenue and the posting type is blank"
+- **Explore node history** — "What changes were made to this cost centre in the last 30 days?"
+- **Review open requests** — "What requests are waiting for my approval?"
 
----
-
-### Cross-Application Support for Node and Node List Properties
-
-Quietly one of the most impactful features in this release.
-
-Previously, Node and Node List properties could only reference node sets within the same application. The workaround? Create a subscription to sync the nodes you needed into the same application just so you could reference them. It worked, but it added overhead and complexity to every environment where you needed cross-application relationships.
-
-That workaround is now obsolete. Node and Node List properties can reference node sets in different applications directly. You configure the target application and dimension in the Property inspector and you're done.
-
-I've implemented that subscription workaround more times than I'd like to admit. This simplification is welcome.
+**My honest take:** The potential here is real, especially for organisations where EDM adoption has been limited because the interface feels complex to non-technical users. That said, AI making bulk changes to master data requires careful review — a misunderstood prompt could update the wrong set of members. The fact that it's optional and must be enabled in settings is the right call. I'd treat this as a tool for empowered users with good data literacy, not a free-for-all for everyone. Test it thoroughly in a non-production environment with realistic scenarios before rolling it out.
 
 ---
 
-## Solid additions worth knowing about
+## Granular Templates for Metadata Migration
 
-### Change Management AI Assistant
+**Who benefits most:** IT teams, EDM administrators, implementation teams
 
-I'm genuinely curious about this one — but I'm not ready to lead with it on client calls yet.
+Here's a scenario I see constantly: a new custom validation has been built and tested in the Dev environment and needs to go to Production. The only way to move it? Export the entire application and import it — which means coordinating a full environment migration just to push one change.
 
-The Change Management AI Assistant adds a generative AI chat interface to EDM via an "Ask Oracle" button. Natural language in, viewpoint queries and change requests out. You can query data, explore node history, make bulk updates, and review open requests through conversational dialog.
+Granular templates solve this. You can now select exactly which artifacts you want to migrate — just that one custom validation, or a handful of new extracts, or a set of updated policies — export them as a template file, and import only those artifacts into the target environment.
 
-The potential is real. Bulk updates that currently require scripting or tedious manual work could theoretically become a three-sentence prompt. For data stewards who aren't technical, this could lower the barrier to self-service significantly.
+**What this means in practice:**
+- Faster deployments — no more waiting for a full migration window to push a small change
+- Less risk — moving only what changed means less chance of overwriting something in the target environment unintentionally
+- More agile governance — IT teams can respond to business requests faster without big change management overhead
 
-But — and this matters — AI in enterprise master data is a context where hallucinations and "close enough" answers are genuinely risky. Making a bulk update to the wrong set of members because the AI misunderstood your prompt isn't a minor inconvenience; it's a data quality incident.
+**Supported artifact types:** Custom Validations, Extracts, Extract Packages, Global Connections, Lookup Sets, Policies, Properties, Subscriptions.
 
-It's an optional feature (must be enabled in system settings), which is the right call. I'd enable it in a test environment, run it through realistic scenarios, and let data stewards evaluate it before considering it for production workflows.
-
-Cautiously watching this one.
-
----
-
-### Download Match and Deduplicate Results to File
-
-A simple addition that will get used constantly in data quality projects.
-
-Match and deduplication runs can produce thousands of results. Working through them in the UI is painful for large sets — and sharing them with business stakeholders for review has always required screenshots or manual data extraction.
-
-Now there's a download button. Export to file, review in Excel, share with whoever needs to sign off. Each row includes matching node names, property values, match status, match rules, and match score.
-
-Not glamorous. Very useful.
+If you manage multiple EDM environments, this changes your deployment process for the better.
 
 ---
 
-### Viewpoint Download to File in Visualized Request State
+## External Custom Validations
 
-Similar theme — makes the offline review workflow actually workable.
+**Who benefits most:** Governance teams, compliance officers, data stewards
 
-When you download a viewpoint that has pending request items, the Excel output now color-codes rows to match the UI visualization. Added nodes, moved nodes, deleted nodes, property updates — all color-coded the same way you see them in EDM.
+Think about a rule like this: *"A cost centre should not be deleted from EDM if it still has open purchase orders in the ERP system."*
 
-For clients who do change approvals outside the system (and there are more of these than you'd think), this makes the exported file genuinely readable instead of just a flat data dump.
+That sounds like a perfectly reasonable governance rule. But until now, EDM had no way to enforce it — because the data to check that condition lives outside of EDM, in an ERP system. Workarounds meant manual checks, or a downstream reconciliation after the fact.
 
----
+External custom validations change this. When a user submits a request in EDM — say, to delete a cost centre — EDM can now call an external system via API to validate that change before it's approved. If the ERP reports open purchase orders against that cost centre, EDM returns an error to the user right there in the request workflow.
 
-### Filter Compared Properties to Differences Only
+**Business impact:** governance rules that were previously enforced manually (or not at all) can now be automated and enforced at the point of change. For compliance-heavy organisations, this is significant.
 
-A small but sharp UX fix for viewpoint comparisons.
-
-When comparing two viewpoints side by side in Align mode, you can now toggle a filter to show only properties that differ. Previously you'd wade through all shared properties — including the matching ones — to find the differences.
-
-On a dimension with 30+ properties, this matters. Toggle on, see only what's different, move on.
+**Technical note:** the external system needs to expose a REST API endpoint conforming to Oracle's specification. There's integration work involved, so this isn't a day-one feature for most environments — but for clients with mature API infrastructure, it's worth scoping.
 
 ---
 
-## Expression engine updates
+## Cross-Application Support for Node and Node List Properties
 
-### Distinct and Sort Methods for String Lists
+**Who benefits most:** Finance teams, data architects, anyone managing shared master data across multiple applications
 
-Two new methods for String List collections in expressions:
+Here's a common EDM scenario: you have a Chart of Accounts application and a Cost Centre application. A property on cost centres needs to reference a specific account — but because those lived in separate applications, you couldn't create a direct link. The workaround was to sync accounts into the cost centre application via subscriptions just to make them referenceable. More complexity, more maintenance.
 
-- **Distinct** — strips duplicates from a string list
-- **Sort** — orders values ascending or descending
+That workaround is now gone. Node and Node List properties can reference data in a completely different application directly. You configure which application and dimension to reference in the property settings, and EDM handles the rest.
 
-If you've built derived properties that concatenate multiple string lists, you've probably dealt with the duplicate problem. Values from combined lists come back messy. Distinct cleans that up in a single method call instead of a workaround expression.
-
-Sort is useful for any scenario where the order of values in a list property matters for downstream use.
+**What this means for the business:** data relationships that mirror how your organisation actually works — accounts linked to cost centres, entities linked to projects — can now be modelled cleanly in EDM without architectural gymnastics. Cleaner data model, easier to maintain, fewer moving parts.
 
 ---
 
-### Find Method and List Property Support for Descendants Collection
+## Download Match and Deduplicate Results to File
 
-Two additions to the Descendants collection in expressions:
+**Who benefits most:** Data quality teams, data stewards, business stakeholders reviewing duplicates
 
-**Find method:** search a node's descendants using a predicate and return the first match. This enables hierarchy-aware conditional logic that wasn't possible before — things like "find the first descendant of type X and return its property Y" as a derived value or validation condition.
+When you run a deduplication exercise in EDM — say, identifying duplicate vendor records or consolidating cost centre hierarchies after a merger — the results often run into hundreds or thousands of matches to review.
 
-**List property support:** List data type properties can now be evaluated in Descendants collection methods. Previously excluded, which was an annoying gap.
+Working through that volume in the EDM UI is painful. Sharing results with a business stakeholder who needs to sign off on which duplicates to merge? Even harder.
 
-Useful if you're building complex expression logic. Won't apply to every client environment, but when you need it, you'll be glad it's there.
+Now you can download the full result set to a file. Each row shows the matching node names, the property values compared, the match status, which rule triggered the match, and the match score. Take it to Excel, filter it, share it with whoever needs to review it, annotate it, bring it back.
 
----
-
-## Everything else
-
-### Data Chain Columns for System Event Audit
-
-Four new columns in the System Event Audit screen: Application, Dimension, Node Type, Hierarchy Set. Populated for data chain events, especially useful after granular template imports.
-
-Pairs naturally with the granular templates feature — after an import, you can quickly see exactly which subject areas were touched without hunting through multiple screens.
+A simple addition that makes data quality projects considerably more manageable.
 
 ---
 
-### Viewpoint Chart Display Improvements
+## Viewpoint Download in Visualized Request State
 
-Three UX tweaks to chart display:
-- New child nodes appear below the parent instead of becoming the centered node
-- The centered node is wider and easier to identify
-- Reduced whitespace means less scrolling
+**Who benefits most:** Business approvers, change management teams, anyone reviewing hierarchy changes offline
 
-If you use chart display regularly, adding multiple siblings to a parent is noticeably less disorienting now.
+Hierarchy change requests in EDM are easy to review inside the application — nodes that are being added, moved, or deleted are visually highlighted. But the moment you download a viewpoint to share with a business approver who isn't in EDM, that visual context disappears. You're left with a flat spreadsheet.
 
----
+This feature brings the visualization into the download. When you export a viewpoint containing pending request items, the Excel file now color-codes each row the same way EDM does — additions in one color, deletions in another, property updates called out clearly.
 
-### Additional Properties for Source FX Movements in Tax Reporting
-
-Two new properties for the Movement dimension in Tax Reporting applications:
-
-- **Is FX Source Rate Movement** — flags whether a movement is designated as an FX source rate movement
-- **FX Source Rate Movement** — specifies which source movement to use for FX rate translation
-
-A predefined **Source Rate Movement Check** validation prevents both FX options from being set simultaneously — catching a configuration conflict before it causes incorrect translation results.
-
-Targeted at Tax Reporting users. If that's your space, check your Movement dimension registrations.
+For organisations where business approvers review hierarchy changes outside the system (which is common), this makes offline review actually meaningful rather than just a data dump.
 
 ---
 
-## My overall take
+## Filter Compared Properties to Differences Only
 
-| Feature | My Rating |
-|---|---|
-| Granular Templates for Metadata Migration | Must use ⭐⭐⭐⭐⭐ |
-| External Custom Validations | High impact, plan carefully ⭐⭐⭐⭐⭐ |
-| Cross-Application Node Properties | Simplifies architecture ⭐⭐⭐⭐ |
-| Change Management AI Assistant | Watch this space ⭐⭐⭐ |
-| Download Match/Dedup Results | Simple, very useful ⭐⭐⭐⭐ |
-| Viewpoint Download Visualized | Good for stakeholder reviews ⭐⭐⭐⭐ |
-| Filter Compared Properties | Small win, daily use ⭐⭐⭐ |
-| Distinct and Sort for String Lists | Handy expression fix ⭐⭐⭐ |
-| Find Method for Descendants | Useful for complex logic ⭐⭐⭐ |
-| Data Chain Audit Columns | Complements templates ⭐⭐⭐ |
-| Chart Display Improvements | Appreciated ⭐⭐ |
-| FX Source Movement Properties | Tax Reporting specific ⭐⭐⭐ |
+**Who benefits most:** Data stewards, migration teams, anyone doing hierarchy reconciliation
 
-If I had to pick three to explore first: granular templates, external custom validations, and cross-application node properties. Those three together represent a meaningful shift in how you can architect and manage EDM environments.
+When you're comparing two viewpoints side by side in EDM — say, comparing a Planning hierarchy against a source GL hierarchy to spot gaps — the Properties pane shows all common properties between the two. If a dimension has 30+ properties and you're looking for discrepancies, scrolling through all of them to find the ones that differ is tedious.
 
-The AI assistant is the wildcard. I'll be watching how it performs in real client scenarios before forming a strong view.
+A new filter button now shows only the properties that are different. Toggle it on and the noise disappears — you see only what needs attention.
 
-What are you most interested in from this release? Drop a comment or reach out — always happy to talk EDM.
+Small change. Real time saving on any reconciliation or alignment project.
+
+---
+
+## Expression Engine: Distinct and Sort for String Lists
+
+**Who benefits most:** EDM administrators, technical implementers
+
+**Business problem it solves:** derived properties that pull values from multiple sources sometimes return duplicate or unordered values, making the output messy and unreliable for downstream use.
+
+Two new methods — **Distinct** (removes duplicates) and **Sort** (orders values ascending or descending) — clean this up directly in the expression. No more workaround expressions to strip duplicates or reorder values manually.
+
+If you have derived properties feeding downstream extracts or integrations, this means cleaner, more predictable output with less expression complexity to maintain.
+
+---
+
+## Expression Engine: Find Method and List Property for Descendants
+
+**Who benefits most:** EDM administrators, implementers building hierarchy-aware logic
+
+**Business problem it solves:** sometimes a property value or validation on a parent node needs to depend on what exists in its subtree. For example: a department node should be flagged as "active" only if it has at least one active cost centre beneath it.
+
+The new **Find** method on the Descendants collection makes this possible — search a node's descendants for members meeting specific criteria, and use that result in derived properties or custom validations.
+
+List data type properties are also now fully supported when working with Descendants, closing a gap that previously limited what hierarchy-aware expressions could evaluate.
+
+---
+
+## Data Chain Columns for System Event Audit
+
+**Who benefits most:** Auditors, EDM administrators, compliance teams
+
+**Business problem it solves:** after a metadata migration (especially with the new granular templates), it can be hard to trace exactly which part of which application was affected by a specific import event.
+
+Four new columns in the System Event Audit screen — Application, Dimension, Node Type, Hierarchy Set — are now populated for data chain events. After an import, you can see at a glance exactly what was touched and where.
+
+For audit and compliance purposes, this makes post-migration traceability much cleaner.
+
+---
+
+## Viewpoint Chart Display Improvements
+
+**Who benefits most:** Anyone who manages hierarchies using chart view
+
+**Business problem it solves:** when adding multiple child nodes to a parent in chart display, the view would shift focus to each new child as it was added — making it disorienting to add a set of siblings.
+
+Now child nodes appear below the centered parent instead of displacing it. The parent stays in focus while you work. The chart is also more compact, with the centered node easier to identify visually.
+
+A UX improvement rather than a functional one, but the kind of thing that matters when you're doing a lot of hierarchy building.
+
+---
+
+## Additional FX Source Movement Properties for Tax Reporting
+
+**Who benefits most:** Tax Reporting application users, finance teams managing FX translation
+
+**Business problem it solves:** Tax Reporting applications need to manage how foreign exchange rates are applied when translating movements. Two new properties on the Movement dimension — **Is FX Source Rate Movement** and **FX Source Rate Movement** — give administrators the control to specify which source movement to use for FX rate translation.
+
+A built-in validation also prevents conflicting FX settings from being configured simultaneously, catching a potential misconfiguration before it affects translation results.
+
+If you're running Tax Reporting, check your Movement dimension registrations — these properties are added automatically for new registrations and available when modifying existing ones.
+
+---
+
+## My Summary
+
+| Feature | Who It's For | Business Impact |
+|---|---|---|
+| Change Management AI Assistant | End users, data stewards | High — changes who can self-serve in EDM |
+| Granular Templates for Migration | IT, admins | High — transforms deployment process |
+| External Custom Validations | Governance, compliance | High — enforces cross-system rules |
+| Cross-Application Node Properties | Data architects | High — simplifies data modelling |
+| Download Match/Dedup Results | Data quality teams | Medium — makes large reviews workable |
+| Viewpoint Download Visualized | Business approvers | Medium — better offline review |
+| Filter Compared Properties | Data stewards | Medium — faster reconciliation |
+| Distinct and Sort for String Lists | Technical implementers | Medium — cleaner derived outputs |
+| Find Method for Descendants | Technical implementers | Medium — unlocks hierarchy-aware logic |
+| Data Chain Audit Columns | Auditors, compliance | Medium — better post-migration traceability |
+| Chart Display Improvements | Hierarchy builders | Low-Medium — UX improvement |
+| FX Source Movement Properties | Tax Reporting users | Targeted — essential if it applies to you |
+
+The three features I'd prioritise exploring first are the **AI Assistant**, **External Custom Validations**, and **Granular Templates** — they represent the biggest shift in what's possible in EDM, both for end users and for the teams who implement and maintain it.
+
+What's caught your attention from this release? Always happy to discuss — drop a comment or get in touch.
