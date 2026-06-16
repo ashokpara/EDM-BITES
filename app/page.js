@@ -17,8 +17,8 @@ export default function Home() {
       <div className="hero">
         <h1>The EPM Post</h1>
         <p>
-          Practical insights for Oracle EPM professionals — Planning, Essbase,
-          EDM, FDMEE, Narrative Reporting, and everything in between.
+          Practical insights for Oracle EPM professionals — DRM, EDM, Planning, Essbase,
+          and everything in between.
         </p>
       </div>
 

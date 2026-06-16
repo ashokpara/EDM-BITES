@@ -2,7 +2,7 @@ import "./globals.css";
 
 export const metadata = {
   title: "The EPM Post",
-  description: "Insights, tips, and deep dives on Oracle EPM — Planning, Essbase, EDM, FDMEE, and more.",
+  description: "Insights, tips, and deep dives on Oracle EPM — DRM, EDM, Planning, Essbase, and more.",
 };
 
 export default function RootLayout({ children }) {
