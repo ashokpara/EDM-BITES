@@ -263,6 +263,46 @@ a {
   color: var(--accent-glow);
 }
 
+/* Share bar */
+.share-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+.share-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.share-btn:hover { opacity: 0.85; }
+
+.share-btn.linkedin {
+  background: #0A66C2;
+  color: #fff;
+}
+
+/* Comments */
+.comments-section {
+  padding-bottom: 4rem;
+}
+
 /* Footer */
 .site-footer {
   border-top: 1px solid var(--border);
