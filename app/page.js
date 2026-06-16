@@ -15,10 +15,10 @@ export default function Home() {
   return (
     <div className="container">
       <div className="hero">
-        <h1>Oracle EDM</h1>
+        <h1>Oracle EPM Talks</h1>
         <p>
-          The drop, the build, the release. Your home for electronic dance
-          music — artists, tracks, festivals, and culture.
+          Practical insights for Oracle EPM professionals — Planning, Essbase,
+          EDM, FDMEE, Narrative Reporting, and everything in between.
         </p>
       </div>
 
