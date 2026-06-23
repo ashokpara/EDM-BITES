@@ -22,6 +22,12 @@ The instinct is to just load all 1,800 accounts straight into EDM and start mapp
 
 I set up a Legacy GL node type and loaded the acquired company's entire COA into it exactly as it came out of their ERP — same account numbers, same cost center codes, same weird legacy naming, no cleanup. The point wasn't to make it pretty. The point was to have an accurate, queryable copy of what they actually had, sitting in EDM, costing us nothing against the subscription.
 
+Here's what that actually looks like in EDM. I named it `GlMappingLegacy`, set the Node Type Class to **Legacy GL**, and gave it a description that's blunt about what it's for — "Merger Temp. Node Type." No mystery to come back to six months later wondering why this thing exists.
+
+![GlMappingLegacy node type configuration showing Node Type Class set to Legacy GL](/images/edm-legacy-node/glmapping-node-type.png)
+
+That one field — Node Type Class set to Legacy GL instead of Normal — is the entire trick. Everything else about setting it up is identical to creating a regular node type.
+
 The parent company's Chart of Accounts stayed a Normal node type, the way it always had been — that one's permanent and gets real governance, so it should count against the license, that's appropriate.
 
 Then it was a straightforward mapping exercise. For every account in the acquired company's Legacy GL node set, we mapped it to where it landed in the parent COA. Some mappings were obvious — their "Office Supplies Expense" mapped cleanly to ours. Others took actual conversations with their controller, because their account for, say, "Equipment Rental — Field Ops" didn't have a clean parent-company equivalent and we had to decide whether it became its own account or got rolled into something broader.
