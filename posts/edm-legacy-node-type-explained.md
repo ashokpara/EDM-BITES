@@ -1,53 +1,47 @@
 ---
-title: "Legacy Node Type in EDM — the feature nobody talks about until the budget meeting"
+title: "Legacy Node Type in EDM — how I onboarded an acquired company's COA without blowing up the EDM license"
 date: "2026-06-23"
-excerpt: "Most people skip past the Legacy GL node type when they're learning EDM. Then six months into a COA redesign project, the licensing math comes up, and suddenly everyone wants to know what it does."
+excerpt: "A client acquired a smaller competitor and needed that company's entire Chart of Accounts mapped into the parent COA fast. Here's how the Legacy GL node type made that onboarding painless instead of a licensing headache."
 ---
 
-# Legacy Node Type in EDM — the feature nobody talks about until the budget meeting
+# Legacy Node Type in EDM — how I onboarded an acquired company's COA without blowing up the EDM license
 
-I'll be honest, the first time I ran into the Legacy GL node type it wasn't because I was reading release notes for fun. It came up because a client's finance team and their EDM admin were stuck in a budget conversation that was going nowhere, and somebody on the call asked "wait, do we even need to license all of these legacy accounts?"
+I want to walk through a specific situation instead of talking about this feature in the abstract, because that's how it actually clicked for me too.
 
-Good question. Turns out, no, you don't. There's a node type built exactly for this.
+A manufacturing client I worked with acquired a smaller regional competitor. Not a huge deal in dollar terms, but messy in the way these things always are — the acquired company ran its own ERP, had its own Chart of Accounts, its own naming conventions, its own "why does this GL code exist" history that nobody on either side could fully explain anymore. Corporate wanted the acquired entity's financials rolled into group reporting within the quarter. Finance wanted it done right, not just shoved into the consolidation with a bunch of manual adjusting entries every month forever.
 
-## Start with the actual problem
+That's a COA mapping problem, and EDM is the right tool for it. But it's also exactly the kind of scenario where, if you're not careful, you end up paying for a pile of data you only need for a few months.
 
-Every COA redesign I've worked on has the same shape. The client is moving to Fusion Cloud (or sometimes just cleaning house even without a migration forcing it), and somebody finally says the thing everyone's been avoiding for years — our Chart of Accounts is a mess, we acquired three companies and never rationalized the accounts, half of these GL codes don't even get used anymore, let's fix it properly this time.
+## Why this is harder than a normal mapping exercise
 
-To do that you need two things sitting side by side in EDM: the old COA exactly as it exists today, warts and all, and the new redesigned COA the business actually wants going forward. Then you map every old account to where it lands in the new structure, and you validate that nothing gets lost in translation. Standard stuff.
+Onboarding an acquired company's COA isn't like a typical redesign where you're mapping your own messy chart to your own cleaner one. You're mapping somebody else's chart — built under completely different assumptions, by people who don't work for you, sometimes in a different ERP entirely — into your existing structure. The acquired company had maybe 1,800 active accounts across all their entities and cost centers. None of those accounts mattered to corporate finance one bit, except for the ninety days or so it would take to map every single one of them into the parent COA and make sure nothing fell through.
 
-Here's where it gets annoying. EDM licenses by node count. Load a legacy COA with a few thousand accounts (and trust me, a decade of M&A activity gets you there fast) into a normal node type, and you've just inflated your subscription footprint for data you're going to throw away the moment cutover is done. I've watched this exact realization derail project scope conversations more than once — the client loves EDM for the mapping piece, then balks the second they see what it'll cost to park all that legacy junk in there.
+The instinct is to just load all 1,800 accounts straight into EDM and start mapping. Which works fine, until someone in IT procurement notices the EDM subscription's node count just jumped and asks why you're paying to license accounts that exist purely to be retired after onboarding.
 
-## What Legacy GL actually buys you
+## What I did instead
 
-Oracle clearly heard this complaint enough times because they built a specific node type class for it. When you create a node type in EDM you pick a class — Normal, Lookup, or Legacy GL — and that last one exists basically for this scenario and nothing else.
+I set up a Legacy GL node type and loaded the acquired company's entire COA into it exactly as it came out of their ERP — same account numbers, same cost center codes, same weird legacy naming, no cleanup. The point wasn't to make it pretty. The point was to have an accurate, queryable copy of what they actually had, sitting in EDM, costing us nothing against the subscription.
 
-The thing that matters most: nodes you put under a Legacy GL node type don't count toward your subscription record limit. That's the whole point of the feature, really. You can dump your entire legacy GL — every account, every weird one-off segment someone created in 2014 and forgot about — into EDM without it touching your licensed node count.
+The parent company's Chart of Accounts stayed a Normal node type, the way it always had been — that one's permanent and gets real governance, so it should count against the license, that's appropriate.
 
-The trade-off is you don't get to customize it much. It comes with a fixed set of properties suited for GL mapping — account type, enabled flag, allow posting, start/end dates, default mapping — and you can't add your own properties on top. Which honestly makes sense. This isn't meant to be a governed, evolving hierarchy. It's a holding pen for data that exists purely so you can map against it and then walk away.
+Then it was a straightforward mapping exercise. For every account in the acquired company's Legacy GL node set, we mapped it to where it landed in the parent COA. Some mappings were obvious — their "Office Supplies Expense" mapped cleanly to ours. Others took actual conversations with their controller, because their account for, say, "Equipment Rental — Field Ops" didn't have a clean parent-company equivalent and we had to decide whether it became its own account or got rolled into something broader.
 
-## How I've actually used it on a project
+Where this earned its keep was validation. Before the first consolidated close with the acquired entity included, we ran a query against the Legacy GL node set for anything still unmapped. Found four accounts nobody had gotten to — three of them were dormant accounts with zero activity in two years, totally fine to skip, but one of them had a small but real balance sitting on it that would have landed nowhere in the consolidation if we'd missed it. That's the kind of thing that turns into an embarrassing audit finding eight months later if it slips through.
 
-The pattern that's worked for me, roughly:
+Once that first consolidated close went clean and the controller signed off, we retired the Legacy GL node set. Didn't need it anymore — the mapping was done, the relationship was documented, and because none of those 1,800 accounts ever counted against the subscription, walking away from them cost nothing either.
 
-Load the legacy COA as-is into a Legacy GL node type. Don't clean anything up first, don't try to be clever, just get an accurate copy of what currently exists in the source system.
+## Why this matters beyond the one project
 
-Build the new, redesigned COA as a regular Normal node type — this is the one that survives long term and gets real governance applied to it.
+If your company does any amount of M&A — and a lot of mid-size and larger organizations do this more often than people assume — this pattern repeats every single time you acquire something. New entity, new COA, new mapping exercise, new pile of accounts you only need temporarily. Without the Legacy GL node type, every acquisition quietly inflates your EDM footprint with data that has no business sticking around past the integration period.
 
-Then use EDM's comparison and mapping tools to connect the two sides. This is also where the visualization stuff actually earns its keep — finance people don't want to trust a spreadsheet of VLOOKUPs for something this important, they want to see the mapping laid out.
+With it, onboarding a new company's COA becomes something you can do confidently and repeatedly, without finance asking "wait, why is our EDM bill creeping up every time we buy a company."
 
-Before go-live, query the legacy node set for anything that's unmapped. This step matters more than people think. I've seen migrations almost go live with a handful of legacy accounts that nobody mapped because they were inactive and got overlooked — and inactive doesn't mean irrelevant, sometimes there's a balance sitting on one of those accounts that needs somewhere to land.
+## When this isn't the right call
 
-Once cutover happens and reconciliation is signed off, you're done with the legacy side. Decommission it. Because none of it counted against your subscription anyway, there's no cost penalty hanging around either.
-
-On one financial services engagement, the legacy GL had genuinely thousands of account combinations from years of mergers nobody had bothered to clean up. If we'd loaded that into a standard node type, the EDM footprint for what was fundamentally a six month mapping project would have ballooned for no good reason. Using Legacy GL kept the whole thing right-sized, and the licensing question never came up again after that first meeting.
-
-## When it's the wrong tool
-
-Don't reach for this if the node set needs custom properties beyond the fixed list, or if it's going to live on as part of ongoing governance after the migration, or if the hierarchy is going to keep evolving in production. That's just a Normal node type, no shortcuts there. Legacy GL is for data that exists to be mapped once and then retired — not for anything you plan to keep maintaining.
+This only works because the acquired company's COA was genuinely temporary — it existed to get mapped and then go away. If you're in a situation where the acquired entity is going to keep operating semi-independently with its own evolving chart for years, that's not a Legacy GL situation anymore, that's just a second Normal node type you're going to govern long term. Know which one you're actually dealing with before you set it up, because switching later isn't free.
 
 ## Bottom line
 
-This is one of those features that never shows up in a sales deck but absolutely shows up in a scoping call. If you're doing a COA redesign as part of a cloud migration and EDM is in the mix, bring up the Legacy GL node type early — before the licensing conversation turns into a reason to scope EDM out of the project entirely.
+The Legacy GL node type isn't really about COA redesign in the abstract — it's about any scenario where you need to bring in a large set of accounts you only need temporarily for mapping and validation. M&A onboarding is one of the cleanest examples of that I've run into, and it's the project that made this feature click for me.
 
 — Ashok
