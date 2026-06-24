@@ -1,53 +1,55 @@
 ---
-title: "Legacy Node Type in EDM — how I onboarded an acquired company's COA without blowing up the EDM license"
+title: "Legacy Node Type in EDM — mapping an old EBS Chart of Accounts to Oracle Cloud ERP without blowing up the license"
 date: "2026-06-23"
-excerpt: "A client acquired a smaller competitor and needed that company's entire Chart of Accounts mapped into the parent COA fast. Here's how the Legacy GL node type made that onboarding painless instead of a licensing headache."
+excerpt: "A client was finally moving off EBS onto Oracle Cloud ERP and needed the entire legacy Chart of Accounts mapped to the new Fusion COA. Here's how the Legacy GL node type kept that mapping exercise from inflating the EDM subscription."
 ---
 
-# Legacy Node Type in EDM — how I onboarded an acquired company's COA without blowing up the EDM license
+# Legacy Node Type in EDM — mapping an old EBS Chart of Accounts to Oracle Cloud ERP without blowing up the license
 
 I want to walk through a specific situation instead of talking about this feature in the abstract, because that's how it actually clicked for me too.
 
-A manufacturing client I worked with acquired a smaller regional competitor. Not a huge deal in dollar terms, but messy in the way these things always are — the acquired company ran its own ERP, had its own Chart of Accounts, its own naming conventions, its own "why does this GL code exist" history that nobody on either side could fully explain anymore. Corporate wanted the acquired entity's financials rolled into group reporting within the quarter. Finance wanted it done right, not just shoved into the consolidation with a bunch of manual adjusting entries every month forever.
+A client of mine had been running EBS for close to fifteen years and was finally making the move to Oracle Cloud ERP. Classic story — the EBS Chart of Accounts had grown organically over a decade and a half, segments got repurposed for things they were never designed for, there were account combinations nobody could explain anymore, and naturally the project team decided this was the moment to do a proper COA redesign instead of just lifting and shifting the mess into the new system.
 
-That's a COA mapping problem, and EDM is the right tool for it. But it's also exactly the kind of scenario where, if you're not careful, you end up paying for a pile of data you only need for a few months.
+That meant capturing the entire legacy EBS COA, building the new Fusion Cloud COA structure, and mapping every single legacy combination to where it belonged in the new world. Get that wrong and you've got broken reporting and reconciliation headaches for years after go-live. Get it right and the new COA actually works the way finance wants it to from day one.
 
-## Why this is harder than a normal mapping exercise
+That's a COA mapping problem, and EDM is the right tool for it. But it's also exactly the kind of scenario where, if you're not careful, you end up paying for a pile of data you only need for the length of the project.
 
-Onboarding an acquired company's COA isn't like a typical redesign where you're mapping your own messy chart to your own cleaner one. You're mapping somebody else's chart — built under completely different assumptions, by people who don't work for you, sometimes in a different ERP entirely — into your existing structure. The acquired company had maybe 1,800 active accounts across all their entities and cost centers. None of those accounts mattered to corporate finance one bit, except for the ninety days or so it would take to map every single one of them into the parent COA and make sure nothing fell through.
+## Why this is harder than it sounds
 
-The instinct is to just load all 1,800 accounts straight into EDM and start mapping. Which works fine, until someone in IT procurement notices the EDM subscription's node count just jumped and asks why you're paying to license accounts that exist purely to be retired after onboarding.
+The EBS COA on this engagement had a few thousand account combinations once you accounted for all the segments — company, cost center, account, and a couple of custom segments that had been bolted on over the years for one-off reporting needs. None of that legacy structure mattered to the business going forward. It existed purely so we could trace every legacy combination to its new home in the redesigned Fusion COA and prove nothing got lost in the conversion.
+
+The instinct is to just load the entire legacy EBS structure straight into EDM and start mapping. Which works fine functionally, right up until someone on the program finance team notices the EDM subscription's node count jumped and asks why they're paying to license thousands of accounts that are getting retired the day after cutover.
 
 ## What I did instead
 
-I set up a Legacy GL node type and loaded the acquired company's entire COA into it exactly as it came out of their ERP — same account numbers, same cost center codes, same weird legacy naming, no cleanup. The point wasn't to make it pretty. The point was to have an accurate, queryable copy of what they actually had, sitting in EDM, costing us nothing against the subscription.
+I set up a Legacy GL node type and loaded the EBS COA into it exactly as it existed in the source system — same segment values, same combinations, same naming quirks, no cleanup. The point wasn't to make it pretty. The point was to have an accurate, queryable copy of the legacy structure sitting in EDM, available for mapping and validation, without it costing anything against the subscription.
 
-Here's what that actually looks like in EDM. I named it `GlMappingLegacy`, set the Node Type Class to **Legacy GL**, and gave it a description that's blunt about what it's for — "Merger Temp. Node Type." No mystery to come back to six months later wondering why this thing exists.
+Here's what that actually looks like in EDM. I named it `GlMappingLegacy`, set the Node Type Class to **Legacy GL**, and gave it a description that's blunt about what it's for — "Merger Temp. Node Type." (Reused the naming convention from an earlier project, the description doesn't need to be precious, it just needs to be obvious to the next person who opens it.)
 
 ![GlMappingLegacy node type configuration showing Node Type Class set to Legacy GL](/images/edm-legacy-node/glmapping-node-type.png)
 
 That one field — Node Type Class set to Legacy GL instead of Normal — is the entire trick. Everything else about setting it up is identical to creating a regular node type.
 
-The parent company's Chart of Accounts stayed a Normal node type, the way it always had been — that one's permanent and gets real governance, so it should count against the license, that's appropriate.
+The new Fusion Cloud COA stayed a Normal node type, the way any production hierarchy should — that one's permanent, gets real governance applied to it, and rightly counts against the license.
 
-Then it was a straightforward mapping exercise. For every account in the acquired company's Legacy GL node set, we mapped it to where it landed in the parent COA. Some mappings were obvious — their "Office Supplies Expense" mapped cleanly to ours. Others took actual conversations with their controller, because their account for, say, "Equipment Rental — Field Ops" didn't have a clean parent-company equivalent and we had to decide whether it became its own account or got rolled into something broader.
+Then it was a straightforward mapping exercise. For every account combination in the legacy EBS node set, we mapped it to where it landed in the new Fusion COA. Some were obvious — straightforward expense and revenue accounts mapped one-to-one without much debate. Others took real conversations with the finance team, because EBS had account combinations that existed for historical reasons that didn't map cleanly to the new, simplified segment structure, and we had to decide whether those got consolidated into a broader account or retired outright with a documented rationale.
 
-Where this earned its keep was validation. Before the first consolidated close with the acquired entity included, we ran a query against the Legacy GL node set for anything still unmapped. Found four accounts nobody had gotten to — three of them were dormant accounts with zero activity in two years, totally fine to skip, but one of them had a small but real balance sitting on it that would have landed nowhere in the consolidation if we'd missed it. That's the kind of thing that turns into an embarrassing audit finding eight months later if it slips through.
+Where this earned its keep was validation. Before final cutover, we ran a query against the Legacy GL node set for anything still unmapped. Found a handful of account combinations nobody had gotten to — most were dormant with no activity in years, fine to retire, but two of them had real balances sitting against them that would have had nowhere to land post-conversion if we'd missed them. That's exactly the kind of gap that turns into a reconciliation nightmare during the first close on the new system if it slips through.
 
-Once that first consolidated close went clean and the controller signed off, we retired the Legacy GL node set. Didn't need it anymore — the mapping was done, the relationship was documented, and because none of those 1,800 accounts ever counted against the subscription, walking away from them cost nothing either.
+Once cutover happened and the first close on Oracle Cloud ERP reconciled cleanly against the legacy EBS data, we retired the Legacy GL node set. Didn't need it anymore — the mapping was complete, the conversion was documented, and because none of those legacy accounts ever counted against the subscription, walking away from them cost nothing either.
 
 ## Why this matters beyond the one project
 
-If your company does any amount of M&A — and a lot of mid-size and larger organizations do this more often than people assume — this pattern repeats every single time you acquire something. New entity, new COA, new mapping exercise, new pile of accounts you only need temporarily. Without the Legacy GL node type, every acquisition quietly inflates your EDM footprint with data that has no business sticking around past the integration period.
+Every EBS-to-Cloud migration I've been part of hits this same shape: a legacy COA that's existed for years, a redesigned COA the business actually wants, and a mapping exercise that needs a full, accurate copy of the old structure to validate against. Without the Legacy GL node type, that mapping exercise quietly inflates your EDM footprint with account data that has no reason to exist past go-live.
 
-With it, onboarding a new company's COA becomes something you can do confidently and repeatedly, without finance asking "wait, why is our EDM bill creeping up every time we buy a company."
+With it, the legacy COA capture becomes something you can do thoroughly — load everything, map everything, validate everything — without the licensing conversation turning into a reason to scope down how much of the legacy structure actually gets captured.
 
 ## When this isn't the right call
 
-This only works because the acquired company's COA was genuinely temporary — it existed to get mapped and then go away. If you're in a situation where the acquired entity is going to keep operating semi-independently with its own evolving chart for years, that's not a Legacy GL situation anymore, that's just a second Normal node type you're going to govern long term. Know which one you're actually dealing with before you set it up, because switching later isn't free.
+This only works because the legacy EBS structure was genuinely temporary — it existed to get mapped, validated, and then retired. If part of that legacy environment is going to keep running in parallel for an extended period, or if you need to track it with custom properties beyond what Legacy GL allows, that's not a Legacy GL situation anymore — that's a second Normal node type you're going to govern for real. Know which one you're actually dealing with before you set it up, because switching later isn't free.
 
 ## Bottom line
 
-The Legacy GL node type isn't really about COA redesign in the abstract — it's about any scenario where you need to bring in a large set of accounts you only need temporarily for mapping and validation. M&A onboarding is one of the cleanest examples of that I've run into, and it's the project that made this feature click for me.
+The Legacy GL node type isn't really about COA redesign in the abstract — it's about any scenario where you need to bring in a large set of accounts you only need temporarily for mapping and validation. An EBS-to-Cloud ERP migration is one of the cleanest examples of that I've run into, and it's the project that made this feature click for me.
 
 — Ashok
