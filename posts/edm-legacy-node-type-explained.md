@@ -44,6 +44,21 @@ Every EBS-to-Cloud migration I've been part of hits this same shape, and retail 
 
 With it, the legacy COA capture becomes something you can do thoroughly — load everything, map everything, validate everything — without the licensing conversation turning into a reason to scope down how much of the legacy structure actually gets captured.
 
+## Where else this comes up
+
+The retail EBS migration is just one flavor of a pattern that shows up constantly. Anywhere you need to bring in a large, temporary set of accounts purely to map and validate against a target structure, Legacy GL is worth considering. A few of the situations I've run into:
+
+| Scenario | What the legacy side looks like | Why Legacy GL fits |
+|---|---|---|
+| ERP migration (EBS, PeopleSoft, SAP, JDE → Oracle Cloud) | Years of accumulated GL accounts and segment combinations from the old ERP | Captured once for mapping and conversion validation, then retired after cutover |
+| Mergers & acquisitions | The acquired company's own Chart of Accounts, built under a completely different structure | Needed only long enough to map every account into the parent COA and confirm nothing's missing |
+| Divestitures / carve-outs | The portion of the COA being separated out, captured for a clean split | Used to validate the carve-out mapping without inflating the remaining org's EDM footprint |
+| Old GL to new GL within the same ERP | A prior chart version after a COA simplification or segment redesign | Lets you trace every old account to its new home before sunsetting the legacy structure |
+| Multi-ledger consolidation after restructuring | Several legacy ledgers from different business units being merged into one | Each legacy ledger's accounts get mapped in, validated, then dropped post-consolidation |
+| Due diligence / pre-acquisition data assessment | A target company's COA, loaded just to assess data quality before a deal closes | Temporary by definition — the data may never even reach production if the deal doesn't go through |
+
+The common thread in every row: the legacy data only needs to exist long enough to be mapped and validated against something else. The moment it has a permanent place in ongoing governance, it stops being a Legacy GL use case and becomes a regular Normal node type instead.
+
 ## When this isn't the right call
 
 This only works because the legacy EBS structure was genuinely temporary — it existed to get mapped, validated, and then retired. If part of that legacy environment is going to keep running in parallel for an extended period, or if you need to track it with custom properties beyond what Legacy GL allows, that's not a Legacy GL situation anymore — that's a second Normal node type you're going to govern for real. Know which one you're actually dealing with before you set it up, because switching later isn't free.
