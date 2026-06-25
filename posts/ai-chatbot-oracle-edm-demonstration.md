@@ -1,14 +1,14 @@
 ---
 title: "How I Built an AI-Powered Chatbot for Oracle EPM Enterprise Data Management — And What I Learned"
 date: "2026-06-17"
-excerpt: "A full disclosure demonstration of what modern AI agents can do when wired directly to the Oracle EDM REST API — and why Oracle's own June 2025 AI release is the real story."
+excerpt: "A full disclosure demonstration of what modern AI agents can do when wired directly to the Oracle EDM REST API — and why Oracle's own June 2026 AI release is the real story."
 ---
 
 # How I Built an AI-Powered Chatbot for Oracle EPM Enterprise Data Management — And What I Learned
 
 ## Introduction: A Demonstration, Not a Disruption
 
-Let me be upfront before a single line of code is discussed: this project was built as a learning exercise and a demonstration of what modern AI agents can do when connected to a live enterprise REST API. It is not intended to replace, compete with, or undermine Oracle's own AI capabilities — least of all the AI-powered change management agent that Oracle themselves shipped as part of their June 2025 EPM release.
+Let me be upfront before a single line of code is discussed: this project was built as a learning exercise and a demonstration of what modern AI agents can do when connected to a live enterprise REST API. It is not intended to replace, compete with, or undermine Oracle's own AI capabilities — least of all the AI-powered change management agent that Oracle themselves shipped as part of their June 2026 EPM release.
 
 Oracle has an entire engineering organisation dedicated to building AI safely into their platform. I have a Python script and a free afternoon. These are not the same thing, and pretending otherwise would be dishonest.
 
@@ -38,9 +38,9 @@ The honest answer turned out to depend on two things far more than on the AI mod
 
 ---
 
-## Oracle's June 2025 Release: The Real AI Story
+## Oracle's June 2026 Release: The Real AI Story
 
-Before going further, it's worth pausing to acknowledge what Oracle actually shipped in their June 2025 EPM release, because it puts this project in proper context.
+Before going further, it's worth pausing to acknowledge what Oracle actually shipped in their June 2026 EPM release, because it puts this project in proper context.
 
 Oracle's new AI-powered change management agent is a native, platform-integrated capability. It understands your EDM environment not just at the API surface level but deep into the business logic: workflow rules, approval hierarchies, data governance policies, and the semantic meaning of your financial dimensions. It is built by people who wrote the platform itself, tested against enterprise-scale deployments, supported under Oracle's SLA, and designed to evolve alongside the platform.
 
@@ -241,7 +241,7 @@ It's worth being specific, precisely because Oracle's native AI agent exists.
 - Anything approaching Oracle's native understanding of EPM business logic, workflow rules, or data integrity constraints
 - A path to replacing institutional EPM expertise
 
-Oracle's June 2025 AI change management agent addresses a fundamentally harder problem than this project touches: not just reading what exists, but safely governing what changes. That requires platform-native trust, deep business logic integration, and the kind of testing and validation that only Oracle can perform on their own platform. This project is an exploration of the *pattern*; Oracle's release is the *product*.
+Oracle's June 2026 AI change management agent addresses a fundamentally harder problem than this project touches: not just reading what exists, but safely governing what changes. That requires platform-native trust, deep business logic integration, and the kind of testing and validation that only Oracle can perform on their own platform. This project is an exploration of the *pattern*; Oracle's release is the *product*.
 
 ---
 
@@ -279,7 +279,7 @@ These patterns are broadly applicable beyond EPM:
 
 **Conversation history transforms the user experience.** Maintaining full history across turns lets users ask follow-up questions that reference earlier answers naturally. "Show me the viewpoints in the first view you listed" just works.
 
-**Be honest about what you built.** A demonstration is valuable. A demonstration that pretends to be a product is dangerous. Oracle's June 2025 release is a product. This is a demonstration. Both have a place.
+**Be honest about what you built.** A demonstration is valuable. A demonstration that pretends to be a product is dangerous. Oracle's June 2026 release is a product. This is a demonstration. Both have a place.
 
 ---
 
@@ -301,7 +301,7 @@ These tools are a starting point. Natural extensions include:
 
 The Oracle EPM platform contains critical financial governance information that too few people can access independently. AI agents — whether Oracle's native implementation or the lightweight demonstration here — change that by making the system's own data conversationally accessible.
 
-Oracle's June 2025 AI change management release is the significant story. Their engineering team has done something genuinely important: they've integrated AI reasoning into a platform that governs real financial data, with the security, scalability, and platform trust that requires.
+Oracle's June 2026 AI change management release is the significant story. Their engineering team has done something genuinely important: they've integrated AI reasoning into a platform that governs real financial data, with the security, scalability, and platform trust that requires.
 
 What this project contributes is a window into the underlying mechanics — a clear, readable demonstration of how AI tool use patterns connect to enterprise APIs, and how thin the barrier now is between "there's an API" and "I can just ask it things." Understanding that mechanic matters, because it's the same mechanic Oracle's engineers scaled up into a production product.
 
@@ -309,4 +309,4 @@ Build the demonstration. Learn the pattern. Then go use the product.
 
 ---
 
-*Full disclosure: This project was built purely as an AI agent capability demonstration. It is not affiliated with, endorsed by, or intended to replace any Oracle product — including Oracle's AI-powered change management capabilities released in the June 2025 EPM update. All read-only constraints are hard-coded at the application level. Always evaluate Oracle's native AI tooling for production EPM environments.*
+*Full disclosure: This project was built purely as an AI agent capability demonstration. It is not affiliated with, endorsed by, or intended to replace any Oracle product — including Oracle's AI-powered change management capabilities released in the June 2026 EPM update. All read-only constraints are hard-coded at the application level. Always evaluate Oracle's native AI tooling for production EPM environments.*
