@@ -38,6 +38,10 @@ This one's conversational. You run it, it asks for your EPM credentials once (en
 
 It remembers what you've already asked, so you can follow up naturally — "now show me the nodes in that one" works exactly how you'd expect a conversation to work. Underneath, it's running on Claude Haiku via OpenRouter, which is the right call here: this is fast, factual lookup work, and you want a snappy model that doesn't make you wait.
 
+Ask it what it can actually do, unprompted, and it'll just tell you — this is the chatbot introducing itself the first time I asked "what can you do for me":
+
+![Chatbot explaining its own capabilities and read-only limitations when asked](/images/edm-ai-chatbot/chatbot-capabilities-intro.png)
+
 ### The Agent — `epm_agent.py`
 
 This one doesn't wait for you to ask anything. You trigger it, walk away, and it goes and does the work itself: discovers every application and view in your environment, drills into every viewpoint, pulls recent workflow requests, and then writes you both a Markdown report and a properly formatted Excel workbook — without you telling it how to structure any of it.
@@ -72,6 +76,10 @@ Once you've entered everything, it gets encrypted with Fernet symmetric encrypti
 ### It Figures Out Your REST Path on Its Own
 
 This one's a small thing but it saved me real annoyance. Oracle's REST API doesn't always live at the same base path — depending on your environment and version, it might be `/epm/rest/edm/v1`, `/epm/rest/v1`, or one of the older Hyperion Planning REST paths. Rather than make you go dig that up, the chatbot just probes a ranked list of likely paths on startup and watches the response codes. A 401 still tells you the path is real, just that your credentials are wrong. A 404 tells you to try the next one. Within a couple of seconds, it's found the right base path and you never had to think about it.
+
+Here's what that actually looks like the first time you run it — saved, encrypted credentials being offered back to you (masked), followed by the auto-discovery probe finding the right REST path on its own:
+
+![Chatbot startup showing masked saved credentials and automatic REST path discovery](/images/edm-ai-chatbot/chatbot-startup-autodiscovery.png)
 
 ---
 

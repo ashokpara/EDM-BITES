@@ -26,6 +26,10 @@ That's not what happened here, and it's genuinely down to how Oracle built the E
 
 I want to be specific about why this matters beyond my own convenience: this is what "AI-ready" actually means in practice. It's not about whether an API has good documentation or a nice developer portal. It's about whether the resource model is consistent enough that a model — or a human, honestly — can generalize from a handful of examples to the whole system. A rigid, deeply nested, bespoke-everything API makes AI integration painful no matter how capable the underlying model is. Oracle's EDM API, for everything else you might say about the platform's complexity, got this right.
 
+These are the actual notes the autonomous agent wrote about its own approach at the end of one run — endpoints used, binding types, node types, all things it figured out on its own just by exploring:
+
+![Agent's own technical architecture notes listing the API endpoints, binding types, and node types it discovered](/images/edm-ai-chatbot/agent-technical-architecture-notes.png)
+
 ## But None of That Matters If Your Metadata Is a Mess
 
 Here's the less comfortable half of this. A flexible API gets you access to the data. It says nothing about whether the data is any good. And an AI chatbot, more than almost any other interface, will expose exactly how good — or how bad — your underlying metadata actually is.
@@ -39,6 +43,16 @@ A few ways this actually bit me while building this:
 **Inconsistent naming across applications creates contradictions, not synthesis.** If one application calls something "Department" and another calls the same concept "Cost Center," with slightly different hierarchies underneath, the AI layer can't quietly reconcile that for you. It'll report both, as written, and now you've got an AI tool surfacing an inconsistency that's been sitting there for years, except now it's impossible to ignore.
 
 **Governance debt becomes visible governance debt.** Stale nodes, duplicate members, broken parent-child links — none of that disappears because you added an AI layer on top. If anything, it gets asked about more often, because suddenly it's easy to ask.
+
+Here's a concrete example. When I pointed the autonomous agent at a real environment and asked it to summarise workflow activity, it pulled back the full detail on individual draft requests, exactly as recorded — who created it, who it's assigned to, how long it's been sitting there (names redacted below, since this came from a real environment):
+
+![A single workflow request's full detail as returned by the EDM API — status, stage, age, and ownership, exactly as recorded](/images/edm-ai-chatbot/agent-workflow-request-detail-redacted.png)
+
+And when it rolled all of that up into a final "Key Findings" summary, it didn't soften anything — it just named who was actively sitting on the data and how old the oldest drafts were:
+
+![Agent-generated key findings summarizing real workflow ownership and recent activity across the environment](/images/edm-ai-chatbot/agent-key-findings-redacted.png)
+
+Neither of those is a flaw in the tool. That's the tool doing exactly its job — reporting what's actually in the system. Whether that's a comfortable thing to read back depends entirely on how well the underlying data and process discipline have been maintained, not on anything the AI did.
 
 This is, genuinely, the whole reason a platform like Oracle EDM exists in the first place. Its actual job is to be the discipline that keeps your master data clean, consistent, and well-described across every system that depends on it. An AI interface doesn't replace that discipline. It just makes the absence of it a lot more obvious, a lot faster, to a lot more people.
 
