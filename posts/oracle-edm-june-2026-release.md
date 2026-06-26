@@ -4,8 +4,6 @@ date: "2026-06-16"
 excerpt: "12 features shipped in the June 2026 EDM release. Beyond the technical notes, here's what each one actually means for the people who use EDM every day — from data stewards to finance teams to IT."
 ---
 
-# Oracle EDM June 2026: What's New and Why It Matters for Your Business
-
 Oracle released 12 enhancements to Enterprise Data Management in the June 2026 update. I've gone through all of them — not just what they do technically, but what they actually mean for the business users, data stewards, and finance teams who rely on EDM every day.
 
 Some of these will change how end users interact with the system entirely. Others are quality-of-life improvements that save time in ways that quietly add up. Here's my take on all of them.

@@ -4,8 +4,6 @@ date: "2026-06-23"
 excerpt: "A multi-banner retail client was finally moving off EBS onto Oracle Cloud ERP and needed the entire legacy Chart of Accounts mapped to the new Fusion COA. Here's how the Legacy GL node type kept that mapping exercise from inflating the EDM subscription."
 ---
 
-# Legacy Node Type in EDM — mapping a retailer's old EBS Chart of Accounts to Oracle Cloud ERP without blowing up the license
-
 I want to walk through a specific situation instead of talking about this feature in the abstract, because that's how it actually clicked for me too.
 
 A couple of years ago I worked with a retail client that had been running EBS for close to fifteen years and was finally making the move to Oracle Cloud ERP. Classic retail story — store count had roughly tripled since the original EBS implementation, a couple of regional banners had been folded in along the way, and the Chart of Accounts had grown to match. Segments that were meant to track store location got repurposed to track distribution centers too at some point, there were account combinations from store formats that didn't even exist anymore, and naturally the project team decided this was the moment to do a proper COA redesign instead of just lifting and shifting the mess into the new system.

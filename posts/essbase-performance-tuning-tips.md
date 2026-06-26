@@ -4,8 +4,6 @@ date: "2026-06-10"
 excerpt: "Slow Essbase retrieval times? Before you start throwing hardware at the problem, try these five tuning tips that consistently make a difference."
 ---
 
-# 5 Essbase Performance Tuning Tips You Should Know
-
 Slow retrievals and long calc times are among the most common complaints from Essbase users. Before you start throwing hardware at the problem, try these five tuning approaches that consistently make a real difference.
 
 ## 1. Review Your Dense/Sparse Configuration

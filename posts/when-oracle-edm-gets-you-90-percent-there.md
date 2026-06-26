@@ -4,8 +4,6 @@ date: "2026-06-19"
 excerpt: "Oracle EDM is exceptional at governing dimension data across EPM, ERP, and beyond. Here is the one specific thing it does not do natively — and the script I built to generate concatenated members for loading into downstream app viewpoints."
 ---
 
-# When Oracle EDM Gets You 90% There — Here Is How I Closed the Gap
-
 There is a specific kind of spreadsheet work that EPM consultants know all too well.
 
 It is not hard. It is not intellectually stimulating. It does not require deep system knowledge or years of consulting experience. It just requires your full, focused attention for an unreasonably long stretch of time — and the moment you lose focus for even a second, you have introduced an error that will surface three weeks later during UAT, at the worst possible moment.

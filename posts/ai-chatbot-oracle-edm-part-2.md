@@ -4,8 +4,6 @@ date: "2026-06-25"
 excerpt: "The AI model was the easy part. Part 2 is about the real foundation: a flexible REST API, clean metadata, and why Oracle EDM's real job goes well beyond EPM."
 ---
 
-# I Built an AI Chatbot for Oracle EDM (Part 2 of 2) — What Actually Makes It Work
-
 If you haven't read [Part 1](/posts/ai-chatbot-oracle-edm-part-1) yet, the short version: I built a read-only chatbot and an autonomous reporting agent on top of Oracle EDM's REST API, mostly to see how far AI tool use has come, with zero intention of competing with Oracle's own (genuinely impressive) AI change management agent from their June 2026 release. Go read it if you want the credential handling and the read-only safeguards — this part picks up where that left off.
 
 Here's the thing I didn't expect going in, but that became obvious about an hour into building this: the AI model was easily the least interesting part of the whole project. The two things that actually determined whether this worked were the flexibility of Oracle's REST API, and the cleanliness of the metadata sitting behind it. Let me explain both, because I think they matter way beyond this one project.

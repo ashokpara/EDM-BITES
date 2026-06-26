@@ -4,8 +4,6 @@ date: "2026-06-16"
 excerpt: "A blog for Oracle EPM professionals — covering Planning, Essbase, EDM, FDMEE, and the real-world challenges of implementing and maintaining EPM solutions."
 ---
 
-# Welcome to Oracle EPM Talks
-
 If you've ever spent hours debugging a FDMEE mapping rule, wondered why your Essbase outline is ballooning in size, or tried to explain Data Management to a business user — this blog is for you.
 
 Oracle EPM Talks is a space for practitioners: consultants, admins, developers, and finance teams who work with Oracle's EPM suite every day.
