@@ -14,6 +14,8 @@ This is that toolkit, organized around how a migration actually unfolds rather t
 
 One caveat before we get into it: these are direct, read-only queries against the DRM database schema, not anything exposed through Oracle's official API. Treat this as an internal discovery technique. Run it against a non-production copy if you can, get DBA sign-off for read access, and keep it strictly to `SELECT`. Nothing here writes anything.
 
+One more thing worth flagging: DRM doesn't always sit on an Oracle database. Plenty of installations run on Oracle DB, but it's just as common to find DRM backed by Microsoft SQL Server, depending on how the environment was originally stood up. The table and column structure is the same either way — it's part of the DRM data model, not the database engine — but the SQL syntax below is written Oracle-style (`TO_CHAR`, `SYSDATE`, and so on). If your back end is SQL Server, the translation is straightforward: swap `TO_CHAR` for `CONVERT` or `CAST`, `SYSDATE` for `GETDATE()`, and adjust date arithmetic accordingly. The joins and table relationships themselves don't change.
+
 ---
 
 ## A Quick Word on the DRM Migration Utility
