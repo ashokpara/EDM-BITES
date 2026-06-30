@@ -1,6 +1,6 @@
 ---
 title: "Migrating Legacy Oracle DRM to EDM? Read the Back End First — Here's the Query Toolkit That Saved Me Weeks"
-date: "2026-06-25"
+date: "2026-06-30"
 excerpt: "The Oracle DRM Migration Utility handles the move — but reading the back-end schema directly is what gives you the full picture fast. A practical SQL toolkit that's just as useful if you're new to DRM as it is if you've been running it for years."
 ---
 
