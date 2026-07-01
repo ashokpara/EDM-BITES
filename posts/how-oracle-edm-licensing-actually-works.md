@@ -236,6 +236,8 @@ There are two ways to get to this number, and it is worth knowing the difference
 
 This is the full report. It shows your record count and node count broken down by Application and Dimension, with a Record Count Contribution column for each. Use this when you need to understand where your record count is concentrated — which applications are consuming the most, which dimensions are driving growth, and where to look if you are approaching a limit.
 
+![Oracle EDM Record Count Log — breakdown by application and dimension showing Nodes and Record Count Contribution columns](/images/edm-licensing/record-count-detail.png)
+
 The report shows two columns that look similar but mean different things:
 
 - **Nodes** — the total number of nodes across your dimensions and applications, including duplicates where the same node appears in multiple viewpoints
@@ -246,6 +248,8 @@ The Record Count Contribution figure is what matters for licensing. Oracle count
 **Option 2 — Your username (top right) → About → Subscription**
 
 This is the quick view. It shows the same two headline figures — Record Count and Total Nodes — without the application or dimension breakdown. If you just need to know where your total sits right now, this is the fastest path. It is also where Oracle's own definition of record count appears: *"a count of unique nodes across all applications grouped by business domain."*
+
+![Oracle EDM About — Subscription panel showing Record Count and Total Nodes summary](/images/edm-licensing/record-count-summary.png)
 
 To illustrate why the distinction between these two figures matters: a deployment with 30,189 total nodes might carry a Record Count of only 13,275 — less than half the raw node figure. If you estimated your licensing position based on total nodes, you would significantly overstate where you sit against any record-based limit.
 
