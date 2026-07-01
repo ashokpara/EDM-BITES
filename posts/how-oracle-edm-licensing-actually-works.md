@@ -4,8 +4,6 @@ date: "2026-07-01"
 excerpt: "There are five licensing paths for Oracle EDMCS. Choosing the wrong one costs more than you think. Here is how to think through it properly before it becomes a mid-project problem."
 ---
 
-# How Oracle EDM Licensing Actually Works — And How to Pick the Right Model
-
 The licensing question comes up on almost every Oracle EDM engagement I work on.
 
 Not always at the beginning — which is the problem. It tends to surface mid-project, when someone in procurement or IT leadership realises that the access model they assumed they had does not actually cover what the implementation team is building. That conversation is never a good one to have six months in.
